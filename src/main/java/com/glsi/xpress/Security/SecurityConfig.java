@@ -1,5 +1,4 @@
 package com.glsi.xpress.Security;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,12 +40,11 @@ public class SecurityConfig {
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html").permitAll()
-                                //give permission to signup
-                                .requestMatchers("/api/sign/**").permitAll()
-                                .requestMatchers("/api/sign/signup").permitAll()
-                                .requestMatchers("/api/sign/signin").permitAll()
-                                .requestMatchers("/css/style.css").permitAll()
-                                .requestMatchers("/js/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/signin").permitAll()
+                                .requestMatchers("/signup").permitAll()
+                                .requestMatchers("/signout").permitAll()
+
 
                                 .anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)

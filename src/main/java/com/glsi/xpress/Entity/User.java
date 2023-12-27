@@ -35,5 +35,9 @@ public class User {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-    
+
+    //get method that returns the user
+    public User getUser() {
+        return this;
+    }
 }

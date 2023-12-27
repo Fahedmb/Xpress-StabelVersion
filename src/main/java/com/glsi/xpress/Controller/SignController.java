@@ -1,15 +1,19 @@
 package com.glsi.xpress.Controller;
 
-import com.glsi.xpress.DTO.SigninDTO;
+import com.glsi.xpress.DTO.LoginDTO;
 import com.glsi.xpress.DTO.SignupDTO;
 import com.glsi.xpress.Entity.Enum.URole;
 import com.glsi.xpress.Entity.User;
 import com.glsi.xpress.Exceptions.EmailAlreadyInUse;
+import com.glsi.xpress.Repository.UserRepository;
 import com.glsi.xpress.Security.JWTGenerator;
 import com.glsi.xpress.Service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
@@ -20,21 +24,27 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/sign")
+@RequestMapping("/api/auth")
 public class SignController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JWTGenerator jwtGenerator;
+    private final UserRepository userRepository;
 
     @Autowired
-    public SignController(UserService userService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
+    public SignController(UserService userService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator, UserRepository userRepository) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
+        this.userRepository = userRepository;
     }
 
     //Signup REST API endpoint
@@ -62,17 +72,26 @@ public class SignController {
 
     //Signin REST API endpoint
     @PostMapping("/signin")
-    public ResponseEntity<User> login(@ModelAttribute SigninDTO signinDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                signinDTO.getEmail(),
-                signinDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        System.out.println("Stored JWT token in session: " + token);
-        System.out.println("User: " + userService.getUserByEmail(signinDTO.getEmail()));
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDto) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return ResponseEntity.ok(userService.getUserByEmail(signinDTO.getEmail()));
+            String token = jwtGenerator.generateToken(authentication);
+            Optional<User> user = userService.getUserByUsername(loginDto.getUsername());
+
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            response.put("username", user.get().getUsername());
+            response.put("role", user.get().getRole().toString());
+
+            return ResponseEntity.ok(response);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+        }
     }
+
 
     //Signout REST API endpoint
     @PostMapping("/signout")

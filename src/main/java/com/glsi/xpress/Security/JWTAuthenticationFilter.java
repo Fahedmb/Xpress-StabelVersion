@@ -1,5 +1,6 @@
 package com.glsi.xpress.Security;
 
+import com.glsi.xpress.Security.JWTGenerator;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String token = getJWTFromRequest(request);
         System.out.println("Received JWT token from request headers: " + token);
-        if (StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
+        if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
             System.out.println("Valid JWT token: " + token);
             String username = tokenGenerator.getUsernameFromJWT(token);
 
@@ -45,7 +46,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private String getJWTFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
         return null;
