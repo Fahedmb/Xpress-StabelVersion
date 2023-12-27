@@ -41,22 +41,12 @@ public class SecurityConfig {
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html").permitAll()
-                                .requestMatchers("/api/auth/**").permitAll()
+                                //give permission to signup
+                                .requestMatchers("/api/sign/**").permitAll()
+                                .requestMatchers("/api/sign/signup").permitAll()
+                                .requestMatchers("/api/sign/signin").permitAll()
                                 .requestMatchers("/css/style.css").permitAll()
                                 .requestMatchers("/js/**").permitAll()
-                                .requestMatchers("/login").permitAll()
-                                .requestMatchers("/register").permitAll()
-                                .requestMatchers("/member-dashboard").permitAll()
-                                .requestMatchers("/librarian-dashboard").permitAll()
-                                .requestMatchers("/admin-dashboard").permitAll()
-                                .requestMatchers("/add-book").permitAll()
-                                .requestMatchers("/add-new-book").permitAll()
-                                .requestMatchers("/members/**").permitAll()
-                                .requestMatchers("/books/**").permitAll()
-                                .requestMatchers("/borrowedBooks/**").permitAll()
-                                .requestMatchers("/borrowed/**").permitAll()
-                                .requestMatchers("/notifications/**").permitAll()
-                                .requestMatchers("/my-notifications/**").permitAll()
 
                                 .anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)

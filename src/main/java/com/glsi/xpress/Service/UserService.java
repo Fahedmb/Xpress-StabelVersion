@@ -4,6 +4,7 @@ import com.glsi.xpress.Entity.Enum.URole;
 import com.glsi.xpress.Entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     User createUser(User user);
@@ -11,4 +12,6 @@ public interface UserService {
     User getUserById(Long userId);
     List<User> getAllUsers();
     void deleteUser(Long userId);
+    Boolean existsByEmail(String email);
+    User getUserByEmail(String email);
 }
