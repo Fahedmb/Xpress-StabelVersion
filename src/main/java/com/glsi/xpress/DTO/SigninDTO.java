@@ -3,7 +3,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-public class LoginDTO {
+public class SigninDTO {
     @NotNull
     @NotBlank @NotEmpty
     private String username;

@@ -1,6 +1,6 @@
 package com.glsi.xpress.Controller;
 
-import com.glsi.xpress.DTO.LoginDTO;
+import com.glsi.xpress.DTO.SigninDTO;
 import com.glsi.xpress.DTO.SignupDTO;
 import com.glsi.xpress.Entity.Enum.URole;
 import com.glsi.xpress.Entity.User;
@@ -8,12 +8,10 @@ import com.glsi.xpress.Exceptions.EmailAlreadyInUse;
 import com.glsi.xpress.Repository.UserRepository;
 import com.glsi.xpress.Security.JWTGenerator;
 import com.glsi.xpress.Service.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
@@ -36,7 +34,6 @@ public class SignController {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JWTGenerator jwtGenerator;
-    private final UserRepository userRepository;
 
     @Autowired
     public SignController(UserService userService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator, UserRepository userRepository) {
@@ -44,7 +41,6 @@ public class SignController {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
-        this.userRepository = userRepository;
     }
 
     //Signup REST API endpoint
@@ -72,7 +68,7 @@ public class SignController {
 
     //Signin REST API endpoint
     @PostMapping("/signin")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<?> login(@RequestBody SigninDTO loginDto) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
