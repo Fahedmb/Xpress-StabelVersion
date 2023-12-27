@@ -28,7 +28,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private URole role;
 
-    public <T> User(String username, String password, List<T> ts) {
+    public <T> User(String username, String password, java.util.List<T> ts) {
     }
 
     @PrePersist
