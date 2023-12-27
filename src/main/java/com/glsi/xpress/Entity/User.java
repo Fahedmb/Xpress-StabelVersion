@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +27,9 @@ public class User {
     private int BooksBorrowed;
     @Enumerated(EnumType.STRING)
     private URole role;
+
+    public <T> User(String username, String password, List<T> ts) {
+    }
 
     @PrePersist
     protected void onCreate() {
