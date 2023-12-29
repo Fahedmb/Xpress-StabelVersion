@@ -28,6 +28,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SignController {
 
     private final UserService userService;
@@ -45,10 +46,11 @@ public class SignController {
 
     //Signup REST API endpoint
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@ModelAttribute @Valid SignupDTO signupDTO){
+    public ResponseEntity<SignupDTO> register(@RequestBody @Valid SignupDTO signupDTO){
         if(userService.existsByEmail(signupDTO.getEmail())) {
             throw new EmailAlreadyInUse();
         }
+
         User user = new User();
         user.setUsername(signupDTO.getUsername());
         System.out.println("username: " + signupDTO);
@@ -62,8 +64,8 @@ public class SignController {
         user.setRole(URole.USER);
 
         userService.createUser(user);
-
-        return  ResponseEntity.ok(user);
+        signupDTO.setPassword(null);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(signupDTO);
     }
 
     //Signin REST API endpoint

@@ -28,6 +28,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private URole role;
 
+
     public <T> User(String username, String password, java.util.List<T> ts) {
     }
 
@@ -39,5 +40,18 @@ public class User {
     //get method that returns the user
     public User getUser() {
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", BooksBorrowed=" + BooksBorrowed +
+                ", role=" + role +
+                '}';
     }
 }

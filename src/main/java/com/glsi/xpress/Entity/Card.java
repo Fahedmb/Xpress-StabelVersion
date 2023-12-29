@@ -18,14 +18,10 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long cardNumber;
-
     private String cardType;
-
     // card expiration date must be after the creation date of the card
     private LocalDateTime expirationDate;
-
     private LocalDateTime createdAt;
 
     @OneToOne
