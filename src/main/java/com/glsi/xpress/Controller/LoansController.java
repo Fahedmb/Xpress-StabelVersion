@@ -2,7 +2,7 @@ package com.glsi.xpress.Controller;
 
 import com.glsi.xpress.Entity.Book;
 import com.glsi.xpress.Entity.Card;
-import com.glsi.xpress.Entity.User;
+import com.glsi.xpress.Exceptions.LoanCannotBeRenewed;
 import com.glsi.xpress.Service.BookService;
 import com.glsi.xpress.Service.CardService;
 import com.glsi.xpress.Service.UserService;
@@ -71,6 +71,10 @@ public class LoansController {
         loan.setOverdue(false);
         //set the renewCount attribute to 0
         loan.setRenewCount(0);
+        //set the isReturned attribute to false
+        loan.setReturned(false);
+        //set the returnTime attribute to null
+        loan.setReturnTime(null);
         //set the book quantity to the book quantity - 1
         //book.get().setQuantity(book.get().getQuantity() - 1);
         //return the loan
@@ -105,9 +109,12 @@ public class LoansController {
         return  loanService.existsByLoanId(loanId);
     }
 
-    @GetMapping("/renewLoan/{userId}/{renewed}")
-    public Loan renewLoan(@PathVariable Long userId, @PathVariable Boolean renewed) {
-        return loanService.renewLoan(userId, renewed);
+
+    @GetMapping("/renewLoan/{loanId}")
+    public Loan renewLoan(@PathVariable Long loanId) throws LoanCannotBeRenewed {
+        return loanService.renewLoan(loanId);
     }
+
+
 
 }

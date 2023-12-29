@@ -4,5 +4,6 @@ public enum CardType {
     MEMBER_CARD,
     VIP_CARD,
     STUDENT_CARD,
-    LIBRARIAN_CARD
+    LIBRARIAN_CARD,
+    LOYALTY_CARD
 }
