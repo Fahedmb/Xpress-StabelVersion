@@ -1,7 +1,6 @@
 package com.glsi.xpress.ServiceImpl;
 
 import com.glsi.xpress.Entity.Card;
-import com.glsi.xpress.Entity.Enum.CardType;
 import com.glsi.xpress.Entity.Loan;
 import com.glsi.xpress.Exceptions.LoanCannotBeRenewed;
 import com.glsi.xpress.Repository.LoanRepository;
@@ -16,9 +15,6 @@ import java.util.List;
 public class LoanServiceImpl implements LoanService {
 
     private final LoanRepository loanRepository;
-
-    @Autowired
-    private CardService cardService;
 
     @Autowired
     public LoanServiceImpl(LoanRepository loanRepository) {

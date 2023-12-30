@@ -21,7 +21,7 @@ public class CardController {
     }
 
     @PostMapping
-    public Card createUser(@RequestBody Card card) {
+    public String createCard(@RequestBody Card card) {
         // get the user id from the request body
         Long user_id = card.getUser().getId();
         // get the user from the database
@@ -40,7 +40,7 @@ public class CardController {
         if (card.getCardType().equals("VIP_CARD")) {
             card.setExpirationDate(card.getCreatedAt().plusYears(2));
         }
-        return cardService.createCard(card);
+        return cardService.createCard(card).toString();
     }
 
     @GetMapping("/{id}")
@@ -65,7 +65,7 @@ public class CardController {
 
     @PostMapping("/extend/{id}")
     //get the id of the card to extend
-    public Card extendCard(@PathVariable Long id) {
+    public String extendCard(@PathVariable Long id) {
         // get the card from the database
         Card card = cardService.getCardById(id);
         // if the card is valid, extend the expiration date by 1 year if teh card type is MEMBER_CARD, LIBRARIAN_CARD or STUDENT_CARD
@@ -80,12 +80,12 @@ public class CardController {
             }
         }
         //return the card
-        return cardService.createCard(card);
+        return cardService.createCard(card).toString();
     }
 
     @PutMapping("/upgradetovip/{id}")
     //get the id of the card to upgrade
-    public Card upgradeCard(@PathVariable Long id) {
+    public String upgradeCard(@PathVariable Long id) {
 
         // get the card from the database
         Card card = cardService.getCardById(id);
@@ -101,12 +101,12 @@ public class CardController {
             System.out.println("You have to borrow more than 10 books to upgrade your card");
         }
         //return the card
-        return cardService.createCard(card);
+        return cardService.createCard(card).toString();
     }
 
     @PutMapping("/upgradetoloyal/{id}")
     //get the id of the card to upgrade
-    public Card upgradeToLoyalCard(@PathVariable Long id) {
+    public String upgradeToLoyalCard(@PathVariable Long id) {
 
         // get the card from the database
         Card card = cardService.getCardById(id);
@@ -122,6 +122,6 @@ public class CardController {
             System.out.println("You have to borrow more than 10 books to upgrade your card");
         }
         //return the card
-        return cardService.createCard(card);
+        return cardService.createCard(card).toString();
     }
 }
