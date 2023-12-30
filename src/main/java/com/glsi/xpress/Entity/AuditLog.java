@@ -1,4 +1,5 @@
 package com.glsi.xpress.Entity;
+import com.glsi.xpress.Entity.Enum.LogType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +19,8 @@ public class AuditLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String action;
+    @Enumerated(EnumType.STRING)
+    private LogType Type;
     private LocalDateTime date;
     @ManyToOne
     @JoinColumn(name = "user_id")
