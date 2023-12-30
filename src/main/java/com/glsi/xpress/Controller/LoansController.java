@@ -30,12 +30,12 @@ public class LoansController {
 
     //create a loan
     @PostMapping
-    public Loan createLoans(@RequestBody Loan loan) {
+    public String createLoans(@RequestBody Loan loan) {
         //get the card number from the request body
         Long cardNumber = loan.getCard().getCardNumber();
         //get teh card from the database
         Card card = cardService.findByCardNumber(cardNumber);
-        //set the card of the loan to the card from the database
+        //set the card of the loan to the card from the databaseS
         loan.setCard(card);
         //get the book id from the request body
         Long bookId = loan.getBook().getId();
@@ -78,7 +78,7 @@ public class LoansController {
         //set the book quantity to the book quantity - 1
         //book.get().setQuantity(book.get().getQuantity() - 1);
         //return the loan
-        return loanService.createLoan(loan);
+        return loanService.createLoan(loan).toString();
     }
 
     @GetMapping("/{id}")
@@ -110,9 +110,9 @@ public class LoansController {
     }
 
 
-    @GetMapping("/renewLoan/{loanId}")
-    public Loan renewLoan(@PathVariable Long loanId) throws LoanCannotBeRenewed {
-        return loanService.renewLoan(loanId);
+    @PutMapping("/renewLoan/{loanId}")
+    public String renewLoan(@PathVariable Long loanId) throws LoanCannotBeRenewed {
+        return loanService.renewLoan(loanId).toString();
     }
 
 

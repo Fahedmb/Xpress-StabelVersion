@@ -4,7 +4,6 @@ import com.glsi.xpress.Entity.Card;
 import com.glsi.xpress.Entity.Loan;
 import com.glsi.xpress.Exceptions.LoanCannotBeRenewed;
 import com.glsi.xpress.Repository.LoanRepository;
-import com.glsi.xpress.Service.CardService;
 import com.glsi.xpress.Service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
