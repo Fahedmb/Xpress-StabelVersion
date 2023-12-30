@@ -5,7 +5,6 @@ import com.glsi.xpress.Service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.glsi.xpress.Entity.Reservations;
-import com.glsi.xpress.Entity.Book;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -22,7 +21,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservations availableReservation(Long bookId, boolean isNotified) {
-        return null;
+        return reservationRepository.findFirstByBookIdAndIsAvailableFalseAndIsNotified(bookId,isNotified);
     }
 
 }
