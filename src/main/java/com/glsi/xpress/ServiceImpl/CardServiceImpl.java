@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 public class CardServiceImpl implements CardService {
     @Autowired
     private CardRepository cardRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Card getCardById(Long id) {
@@ -54,5 +56,10 @@ public class CardServiceImpl implements CardService {
     @Override
     public java.util.List<Card> getAllCards() {
         return cardRepository.findAll();
+    }
+
+    @Override
+    public Card getCardByUser(Long userId) {
+        return cardRepository.findByUser(userRepository.findById(userId).orElse(null));
     }
 }
